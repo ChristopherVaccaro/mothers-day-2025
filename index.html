@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mother's Day Card</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #ffdde1, #ee9ca7);
+      background-image: url('https://www.transparenttextures.com/patterns/flowers.png'), linear-gradient(to bottom right, #ffdde1, #ee9ca7);
+      background-blend-mode: overlay;
+      background-repeat: repeat;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      max-width: 500px;
+      width: 100%;
+      z-index: 1;
+    }
+
+    h1 {
+      color: #d63384;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .audio-player button {
+      background-color: #d63384;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .audio-player button:hover {
+      background-color: #c2176d;
+    }
+
+    .petal {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      border-radius: 50% 50% 50% 50%;
+      opacity: 0.6;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Happy Mother’s Day</h1>
+    <p>You are the heart of our home, and we love you more than words can ever express.</p>
+    <div class="audio-player">
+      <audio id="voiceMessage" src="/assets/happy-mothers-day-2025.mp3"></audio>
+      <button id="audioToggle">Play Message</button>
+    </div>
+  </div>
+
+  <!-- Floating Petals -->
+  <script>
+    for (let i = 0; i < 30; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.animationDuration = (5 + Math.random() * 5) + 's';
+      petal.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(petal);
+    }
+
+    const audio = document.getElementById('voiceMessage');
+    const button = document.getElementById('audioToggle');
+
+    button.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        button.textContent = 'Pause Message';
+      } else {
+        audio.pause();
+        button.textContent = 'Play Message';
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      button.textContent = 'Play Message';
+    });
+  </script>
+</body>
+</html>
