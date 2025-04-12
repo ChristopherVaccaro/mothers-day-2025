@@ -154,11 +154,59 @@
       transform: scale(1.2);
       color: #c2176d;
     }
+
+    .decorative-icons {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .flower {
+      position: absolute;
+      color: #d63384;
+      opacity: 0.6;
+    }
+
+    .flower-1 {
+      top: 8%;
+      left: 10%;
+      font-size: 35px;
+      transform: rotate(-15deg);
+    }
+
+    .flower-2 {
+      top: 8%;
+      right: 10%;
+      font-size: 35px;
+      transform: rotate(15deg);
+    }
+
+    .flower-3 {
+      bottom: 20%;
+      left: 20%;
+      font-size: 22px;
+      transform: rotate(-10deg);
+    }
+
+    .gift {
+      position: absolute;
+      color: #d63384;
+      font-size: 40px;
+      bottom: 10%;
+      right: 10%;
+      transform: rotate(10deg);
+    }
   </style>
 </head>
 <body>
   <div class="card">
     <div class="card-front">
+      <div class="decorative-icons">
+        <i class="ph ph-flower-tulip flower flower-1"></i>
+        <i class="ph ph-flower-tulip flower flower-2"></i>
+        <i class="ph ph-gift gift"></i>
+      </div>
       <h1>Happy Mother's Day!</h1>
       <p style="margin-bottom: 15px;">You are the heart of our home, and we love you more than words can ever express.</p>
       <button class="surprise-button" id="surpriseButton">Click me for a surprise</button>
@@ -167,8 +215,8 @@
       <button class="back-arrow" id="backArrow">
         <i class="ph ph-caret-left"></i>
         <span>Back</span>
-      </button>
-      <p>Click the button below to hear a special message</p>
+      </button>  
+      <p>Click below to hear a special message</p>
       <p style="font-size: 14px; color: #666; margin-bottom: 16px;">(Turn up your volume!)</p>
       <div class="audio-player">
         <audio id="voiceMessage" src="assets/happy-mothers-day-2025.mp3"></audio>
