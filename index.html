@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mother's Day Card</title>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
     body {
       margin: 0;
@@ -16,10 +17,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       flex-direction: column;
       text-align: center;
       padding: 20px;
+      box-sizing: border-box;
     }
 
     .card {
@@ -30,6 +32,54 @@
       max-width: 500px;
       width: 100%;
       z-index: 1;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 300px;
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      backface-visibility: hidden;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      padding: 30px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+    }
+
+    .surprise-button, .play-button {
+      background-color: #d63384;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .surprise-button:hover, .play-button:hover {
+      background-color: #c2176d;
     }
 
     h1 {
@@ -40,7 +90,7 @@
     p {
       font-size: 18px;
       color: #333;
-      margin-bottom: 30px;
+      margin-bottom:16px;
     }
 
     .audio-player button {
@@ -77,15 +127,53 @@
         opacity: 0;
       }
     }
+
+    .back-arrow {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: none;
+      border: none;
+      color: #d63384;
+      font-size: 32px;
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0px;
+    }
+
+    .back-arrow span {
+      font-size: 16px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .back-arrow:hover {
+      transform: scale(1.2);
+      color: #c2176d;
+    }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Happy Mother’s Day</h1>
-    <p>You are the heart of our home, and we love you more than words can ever express.</p>
-    <div class="audio-player">
-      <audio id="voiceMessage" src="assets/happy-mothers-day-2025.mp3"></audio>
-      <button id="audioToggle">Play Message</button>
+    <div class="card-front">
+      <h1>Happy Mother's Day!</h1>
+      <p style="margin-bottom: 15px;">You are the heart of our home, and we love you more than words can ever express.</p>
+      <button class="surprise-button" id="surpriseButton">Click me for a surprise</button>
+    </div>
+    <div class="card-back">
+      <button class="back-arrow" id="backArrow">
+        <i class="ph ph-caret-left"></i>
+        <span>Back</span>
+      </button>
+      <p>Click the button below to hear a special message</p>
+      <p style="font-size: 14px; color: #666; margin-bottom: 16px;">(Turn up your volume!)</p>
+      <div class="audio-player">
+        <audio id="voiceMessage" src="assets/happy-mothers-day-2025.mp3"></audio>
+        <button id="audioToggle">Play Message</button>
+      </div>
     </div>
   </div>
 
@@ -100,10 +188,22 @@
       document.body.appendChild(petal);
     }
 
+    const card = document.querySelector('.card');
     const audio = document.getElementById('voiceMessage');
     const button = document.getElementById('audioToggle');
+    const surpriseButton = document.getElementById('surpriseButton');
+    const backArrow = document.getElementById('backArrow');
 
-    button.addEventListener('click', () => {
+    surpriseButton.addEventListener('click', () => {
+      card.classList.add('flipped');
+    });
+
+    backArrow.addEventListener('click', () => {
+      card.classList.remove('flipped');
+    });
+
+    button.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent card flip when clicking the button
       if (audio.paused) {
         audio.play();
         button.textContent = 'Pause Message';
