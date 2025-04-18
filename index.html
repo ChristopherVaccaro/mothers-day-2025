@@ -13,9 +13,9 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to bottom right, #ffdde1, #ee9ca7);
-      background-image: url('https://www.transparenttextures.com/patterns/flowers.png'), linear-gradient(to bottom right, #ffdde1, #ee9ca7);
-      background-blend-mode: overlay;
+      background: linear-gradient(135deg, #ffe6f1 0%, #e8eaf6 50%, #e0f7fa 100%);
+      background-image: url('https://www.transparenttextures.com/patterns/lightpaperfibers.png'), linear-gradient(135deg, #ffe6f1 0%, #e8eaf6 50%, #e0f7fa 100%);
+      background-blend-mode: multiply;
       background-repeat: repeat;
       overflow: hidden;
       display: flex;
@@ -29,11 +29,11 @@
     }
 
     .card {
-      background-color: rgba(255, 255, 255, 0.95);
+      background-color: rgba(255, 255, 255, 0.9);
       padding: 30px;
       border-radius: 16px;
-      border: 1px solid palevioletred;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      border: 2px solid #f8bbd0;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.1);
       max-width: 500px;
       width: 100%;
       z-index: 1;
@@ -73,43 +73,48 @@
     }
 
     .surprise-button, .play-button {
-      background-color: #d63384;
-      color: white;
+      background: linear-gradient(45deg, #fad0c4, #ffd1ff);
+      color: #6d2e46;
       border: none;
       padding: 12px 24px;
-      border-radius: 8px;
+      border-radius: 12px;
       font-size: 16px;
       cursor: pointer;
       margin-top: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background 0.3s;
     }
 
     .surprise-button:hover, .play-button:hover {
-      background-color: #c2176d;
+      background: linear-gradient(45deg, #ffd1ff, #fad0c4);
     }
 
     h1 {
-      color: #d63384;
+      color: #9575cd;
       margin-bottom: 20px;
+      font-family: 'Brush Script MT', cursive;
     }
 
     p {
       font-size: 18px;
-      color: #333;
+      color: #555;
       margin-bottom:16px;
     }
 
     .audio-player button {
-      background-color: #d63384;
-      color: white;
+      background: linear-gradient(45deg, #fad0c4, #ffd1ff);
+      color: #6d2e46;
       border: none;
       padding: 12px 24px;
-      border-radius: 8px;
+      border-radius: 12px;
       font-size: 16px;
       cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background 0.3s;
     }
 
     .audio-player button:hover {
-      background-color: #c2176d;
+      background: linear-gradient(45deg, #ffd1ff, #fad0c4);
     }
 
     .petal {
@@ -201,6 +206,17 @@
       right: 10%;
       transform: rotate(10deg);
     }
+    .heart {
+      position: absolute;
+      color: #f48fb1;
+      opacity: 0.6;
+    }
+    .heart-4 {
+      top: 30%;
+      left: 50%;
+      font-size: 30px;
+      transform: rotate(-10deg);
+    }
     /* Responsive Design */
     @media (max-width: 768px) {
       .card {
@@ -271,6 +287,7 @@
         <i class="ph ph-flower-tulip flower flower-1"></i>
         <i class="ph ph-flower-tulip flower flower-2"></i>
         <i class="ph ph-gift gift"></i>
+        <i class="ph ph-heart heart heart-4"></i>
       </div>
       <h1>Happy Mother's Day!</h1>
       <p style="margin-bottom: 15px;">You are the heart of our home, and we love you more than words can ever express.</p>
@@ -281,7 +298,6 @@
         <i class="ph ph-caret-left"></i>
         <span>Back</span>
       </button>  
-      <p>Click below to hear a special message</p>
       <p style="font-size: 14px; color: #666; margin-bottom: 16px;">(Turn up your volume!)</p>
       <div class="audio-player">
         <audio id="voiceMessage" src="assets/happy-mothers-day-2025.mp3"></audio>
