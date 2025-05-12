@@ -116,6 +116,18 @@
     .audio-player button:hover {
       background: linear-gradient(45deg, #ffd1ff, #fad0c4);
     }
+    
+    .download-button {
+      margin-top: 15px;
+      background: linear-gradient(45deg, #c4e0fa, #d0faff);
+      color: #2e4e6d;
+      display: block;
+      width: 100%;
+    }
+    
+    .download-button:hover {
+      background: linear-gradient(45deg, #d0faff, #c4e0fa);
+    }
 
     .petal {
       position: absolute;
@@ -303,7 +315,10 @@
       <p style="font-size: 14px; color: #666; margin-bottom: 16px;">(Turn up your volume!)</p>
       <div class="audio-player">
         <audio id="voiceMessage" src="assets/happy-mothers-day-2025.mp3"></audio>
-        <button id="audioToggle">Play Message</button>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <button id="audioToggle">Play Message</button>
+          <button id="downloadAudio" class="download-button">Download Message</button>
+        </div>
       </div>
     </div>
   </div>
@@ -347,6 +362,20 @@
 
     audio.addEventListener('ended', () => {
       button.textContent = 'Play Message';
+    });
+    
+    // Download functionality
+    const downloadButton = document.getElementById('downloadAudio');
+    downloadButton.addEventListener('click', () => {
+      // Create a temporary anchor element
+      const downloadLink = document.createElement('a');
+      downloadLink.href = audio.src;
+      downloadLink.download = 'mothers-day-message.mp3';
+      
+      // Append to the body, click it, and remove it
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
     });
   </script>
 </body>
