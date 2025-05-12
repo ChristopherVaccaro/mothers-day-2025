@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mother's Day Card</title>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <style>
     /* Global box-sizing */
     *, *::before, *::after {
@@ -111,6 +112,8 @@
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       transition: background 0.3s;
+      min-height: 48px;
+      min-width: 200px;
     }
 
     .audio-player button:hover {
@@ -127,6 +130,18 @@
     
     .download-button:hover {
       background: linear-gradient(45deg, #d0faff, #c4e0fa);
+    }
+    
+    .image-button {
+      margin-top: 15px;
+      background: linear-gradient(45deg, #d0fae0, #c4ffcf);
+      color: #2e6d4e;
+      display: block;
+      width: 100%;
+    }
+    
+    .image-button:hover {
+      background: linear-gradient(45deg, #c4ffcf, #d0fae0);
     }
 
     .petal {
@@ -301,7 +316,6 @@
         <i class="ph ph-flower-tulip flower flower-1"></i>
         <i class="ph ph-flower-tulip flower flower-2"></i>
         <i class="ph ph-gift gift"></i>
-        <i class="ph ph-heart heart heart-4"></i>
       </div>
       <h1>Happy Mother's Day!</h1>
       <p style="margin-bottom: 15px;">You are the heart of our home and we love you more than words can ever express!</p>
@@ -318,6 +332,7 @@
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <button id="audioToggle">Play Message</button>
           <button id="downloadAudio" class="download-button">Download Message</button>
+          <button id="downloadCard" class="image-button">Download Card as Image</button>
         </div>
       </div>
     </div>
@@ -364,7 +379,7 @@
       button.textContent = 'Play Message';
     });
     
-    // Download functionality
+    // Download audio functionality
     const downloadButton = document.getElementById('downloadAudio');
     downloadButton.addEventListener('click', () => {
       // Create a temporary anchor element
@@ -377,6 +392,90 @@
       downloadLink.click();
       document.body.removeChild(downloadLink);
     });
+    
+    // Download card as image functionality
+    const downloadCardButton = document.getElementById('downloadCard');
+    downloadCardButton.addEventListener('click', () => {
+      // Capture the card without flipping it
+      captureAndDownloadCard();
+    });
+    
+    function captureAndDownloadCard() {
+      // Store original text and show loading state on the button
+      const originalText = downloadCardButton.textContent;
+      const loadingText = 'Generating image...';
+      
+      // Create a hidden span to measure text width
+      const tempSpan = document.createElement('span');
+      tempSpan.style.visibility = 'hidden';
+      tempSpan.style.position = 'absolute';
+      tempSpan.style.fontSize = window.getComputedStyle(downloadCardButton).fontSize;
+      tempSpan.style.fontFamily = window.getComputedStyle(downloadCardButton).fontFamily;
+      tempSpan.textContent = loadingText.length > originalText.length ? loadingText : originalText;
+      document.body.appendChild(tempSpan);
+      
+      // Set min-width based on the longer text
+      const buttonWidth = Math.max(downloadCardButton.offsetWidth, tempSpan.offsetWidth + 40); // Add padding
+      downloadCardButton.style.minWidth = buttonWidth + 'px';
+      document.body.removeChild(tempSpan);
+      
+      // Now change the text
+      downloadCardButton.textContent = loadingText;
+      downloadCardButton.disabled = true;
+      
+      // Create a clone of the front card to capture without affecting the display
+      const cardFront = document.querySelector('.card-front');
+      const cardClone = cardFront.cloneNode(true);
+      
+      // Style the clone and add it to the document (off-screen)
+      cardClone.style.position = 'absolute';
+      cardClone.style.left = '-9999px';
+      cardClone.style.transform = 'none'; // Remove any transforms
+      cardClone.style.opacity = '1';
+      cardClone.style.backfaceVisibility = 'visible';
+      
+      // Add to body temporarily
+      document.body.appendChild(cardClone);
+      
+      // Use html2canvas to capture the cloned card
+      html2canvas(cardClone, {
+        scale: 2, // Higher quality
+        backgroundColor: '#FFFFFF', // White background
+        logging: false,
+        allowTaint: true,
+        useCORS: true
+      }).then(canvas => {
+        // Remove the clone
+        document.body.removeChild(cardClone);
+        // Convert to image and download
+        const image = canvas.toDataURL('image/png');
+        const downloadLink = document.createElement('a');
+        downloadLink.href = image;
+        downloadLink.download = 'mothers-day-card.png';
+        
+        // Append to the body, click it, and remove it
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        
+        // Reset button state
+        downloadCardButton.textContent = 'Download Card as Image';
+        downloadCardButton.disabled = false;
+        // Keep the min-width we set earlier
+      }).catch(error => {
+        // Remove the clone if there was an error
+        if (document.body.contains(cardClone)) {
+          document.body.removeChild(cardClone);
+        }
+        console.error('Error generating image:', error);
+        downloadCardButton.textContent = 'Error - Try Again';
+        downloadCardButton.disabled = false;
+        setTimeout(() => {
+          downloadCardButton.textContent = 'Download Card as Image';
+          // Keep the min-width we set earlier
+        }, 3000);
+      });
+    }
   </script>
 </body>
 </html>
